@@ -8,7 +8,10 @@ namespace MineSweeper
 {
     public class MineSweeperGame
     {
-        protected int[,] MineField;
+        /// <summary>
+        /// Internal mine field. It only contains mines locations.
+        /// </summary>
+        protected bool[,] MineField;
 
         public int FieldWidth { get; private set; }
 
@@ -18,7 +21,7 @@ namespace MineSweeper
 
         public MineSweeperGame(int fieldW, int fieldH, int mines)
         {
-            MineField = new int[fieldW, fieldH];
+            MineField = new bool[fieldW, fieldH];
             Mines = mines;
         }
 
@@ -27,9 +30,33 @@ namespace MineSweeper
             return new MineSweeperGame(fieldW, fieldH, mines);
         }
 
-        protected internal void SetMines()
+        /// <summary>
+        /// Randomly spitting mines across the field. This should happen right after user's first move.
+        /// User's move coordinates excluded from available mines loaction.
+        /// </summary>
+        /// <param name="clickedRow"></param>
+        /// <param name="clickedCol"></param>
+        protected internal void SetMines(int clickedRow, int clickedCol)
         {
+            Random a = new Random();
 
+            MineField[clickedRow, clickedCol] = true;
+
+            int Row, Col;
+
+            int mines = Mines;
+            while (mines > 0) // potentially infinite, but simple :3
+            {
+                Row = a.Next(FieldHeight);
+                Col = a.Next(FieldWidth);
+                if (!MineField[Row, Col])
+                {
+                    MineField[Row, Col] = true;
+                    mines--;
+                }
+            }
+
+            MineField[clickedRow, clickedCol] = false;
         }
     }
 }
