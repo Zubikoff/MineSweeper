@@ -4,9 +4,109 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MineSweeperVisual"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5 0 5 5" />
+            <Setter Property="MinWidth" Value="50" />
+            <Setter Property="Background" Value="Snow" />
+        </Style>
+        <Style x:Key="FieldButtonStyle">
+            <Setter Property="ButtonBase.Height" Value="30" />
+            <Setter Property="ButtonBase.Width" Value="30" />
+            <Setter Property="ButtonBase.Margin" Value="2" />
+            <Setter Property="ButtonBase.FontWeight" Value="Bold" />
+            <Setter Property="ButtonBase.Background" Value="LightGray"/>
+            <Style.Triggers>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>-1</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="Transparent" />
+                    <Setter Property="ButtonBase.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="флажок.png" Stretch="Uniform"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>1</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="Red" />
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>2</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="Orange" />
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>3</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="YellowGreen" />
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>4</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="ForestGreen" />
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>5</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="DodgerBlue" />
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>6</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="Blue" />
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>7</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="DarkViolet" />
+                </Trigger>
+                <Trigger Property="ButtonBase.Content">
+                    <Trigger.Value>
+                        <sys:Int32>8</sys:Int32>
+                    </Trigger.Value>
+                    <Setter Property="ButtonBase.Foreground" Value="IndianRed" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <StackPanel HorizontalAlignment="Center" Background="Aqua"  Orientation="Horizontal">
+                <GroupBox Header="Width">
+                    <TextBox Name="tbWidth">12</TextBox>
+                </GroupBox>
+                <GroupBox Header="Height">
+                    <TextBox Name="tbHeight">10</TextBox>
+                </GroupBox>
+                <GroupBox Header="Mines">
+                    <TextBox Name="tbMines">20</TextBox>
+                </GroupBox>
+                <Button Name="Start" Click="Start_Click">New Game</Button>
+            </StackPanel>
+        </Grid>
+        <UniformGrid Background="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Field" Button.PreviewMouseUp="Field_PreviewMouseUp" Button.PreviewMouseDown="Field_PreviewMouseDown">
+        </UniformGrid>
+    </DockPanel>
 </Window>
