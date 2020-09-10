@@ -13,6 +13,10 @@ namespace MineSweeper
         /// </summary>
         protected bool[,] MineField;
 
+        /// <summary>
+        /// A mine field representation to a player. Number 0 to 8 represents number of mines in the surrounding cells. 
+        /// Null means this cell was never opened before. -1 means that user put a flag on that cell.
+        /// </summary>
         public int?[,] Field { get; private set; }
 
         private bool MinesSet;
@@ -38,22 +42,22 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// Randomly spitting mines across the field. This should happen right after user's first move.
-        /// User's move coordinates excluded from available mines location.
+        /// Randomly spitting mines across the field. This should happen right after player's first move.
+        /// player's move coordinates excluded from available mines location.
         /// </summary>
         /// <param name="clickedRow"></param>
         /// <param name="clickedCol"></param>
         protected internal void SetMines(int clickedCol, int clickedRow)
         {
-            MineField[clickedCol, clickedRow] = true; // temporarily set user's move as "mine"
+            MineField[clickedCol, clickedRow] = true; // temporarily set player's move as "mine"
 
             SetMines();
 
-            MineField[clickedCol, clickedRow] = false; // clear user's move from a mine
+            MineField[clickedCol, clickedRow] = false; // clear player's move from a mine
         }
 
         /// <summary>
-        /// Randomly spitting mines across the field. This method ignores user's move.
+        /// Randomly spitting mines across the field. This method ignores player's move.
         /// </summary>
         protected internal void SetMines()
         {
@@ -77,7 +81,7 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// Making user's move.
+        /// Opening a cell.
         /// </summary>
         /// <returns>Returns "true" if demining successful. Returns "false" if you picked a mine</returns>
         public bool DemineCell(int clickedCol, int clickedRow)
@@ -123,7 +127,7 @@ namespace MineSweeper
 
                 if (number == 0)
                 {
-                    // if there is no mines in surrounding cells we open all cells around us (recursive);
+                    // if there is no mines in surrounding cells we open all cells around us (recursively);
                     FieldOpen(clickedCol - 1, clickedRow - 1);
                     FieldOpen(clickedCol, clickedRow - 1);
                     FieldOpen(clickedCol + 1, clickedRow - 1);
@@ -141,7 +145,7 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// Checking the mine in a current cell. Ignores going out of range.
+        /// Checking the existence of a mine in a current cell. Ignores going out of range.
         /// </summary>
         /// <returns>Returns "true" if there is a mine in a cell. Returns "false" in all other ways</returns>
         protected bool IfTheMine(int clickedCol, int clickedRow)
@@ -150,6 +154,19 @@ namespace MineSweeper
                 return false;
             else 
                 return MineField[clickedCol, clickedRow];
+        }
+
+        public void PutAFlag(int clickedCol, int clickedRow)
+        {
+            if (Field[clickedCol, clickedRow] == null)
+            {
+                Field[clickedCol, clickedRow] = -1;
+            }
+
+            if (Field[clickedCol, clickedRow] == -1)
+            {
+                Field[clickedCol, clickedRow] = null;
+            }
         }
     }
 }
